@@ -2,24 +2,9 @@ import { List } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import PatientRow from "./PatientRow";
+import { Patient } from "../../App";
 
-type Patient = {
-  patientName: string;
-};
-
-const PatientTable = () => {
-  const [patients, setPatients] = useState<Patient[]>();
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  const getPatients = async () => {
-    const result = await axios.get("http://localhost:3001/patients");
-    setPatients(result.data);
-  };
-
-  useEffect(() => {
-    getPatients();
-  }, []);
-
+const PatientTable: React.FC<{ patients: Patient[] }> = ({ patients }) => {
   return (
     <List>
       {patients &&

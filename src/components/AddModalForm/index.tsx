@@ -34,16 +34,8 @@ const isDisabledPersonData = {
   value: true,
 };
 
-const AddModalForm: React.FC = () => {
+const AddModalForm: React.FC<{ onSubmit: any }> = ({ onSubmit }) => {
   const [isDisabledPersonChecked, setIsDisabledPersonChecked] = useState(false);
-
-  const onSubmit = (values: any) => {
-    console.log(values);
-    axios
-      .post("http://localhost:3001/patients", values)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-  };
 
   return (
     <Form
