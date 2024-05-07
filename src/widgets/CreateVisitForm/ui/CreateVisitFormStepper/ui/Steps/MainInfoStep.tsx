@@ -56,6 +56,8 @@ export const MainInfoStep: React.FC<MainInfoStepProps> = ({
 
   const methods = useForm<MainInfoStepData>({
     defaultValues: {
+      date_arrive: new Date(),
+      date_visit: new Date(),
       apnea_id: 1,
       appearance_id: 1,
       visit_number_id: 1,
@@ -111,7 +113,6 @@ export const MainInfoStep: React.FC<MainInfoStepProps> = ({
                 name="date_arrive"
                 required
               />
-              <DatePickerGrid label="Дата выписки" name="date_leave" required />
               <DatePickerGrid
                 label="Дата посещения"
                 name="date_visit"

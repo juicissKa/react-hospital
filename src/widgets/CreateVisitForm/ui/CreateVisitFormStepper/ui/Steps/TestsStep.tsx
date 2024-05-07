@@ -24,7 +24,6 @@ export type Test = {
   id: number;
   name: string;
   value: string;
-  on_arrival: boolean;
 };
 
 export type TestsStepData = {
@@ -41,7 +40,7 @@ export const TestsStep: React.FC<TestsStepProps> = ({
   filledFormData: { mainInfo, illnesses },
 }) => {
   const [testId, setTestId] = useState<number | null>(null);
-  const methods = useForm<TestsStepData>({});
+  const methods = useForm<TestsStepData>({ defaultValues: { tests: [] } });
 
   const handleAutocompleteChange = (_: any, value: Value | null) => {
     if (value) setTestId(value.id);
@@ -49,7 +48,7 @@ export const TestsStep: React.FC<TestsStepProps> = ({
   };
 
   const [tests, setTests] = useState<Test[]>([]);
-  const { append, remove } = useFieldArray<TestsStepData>({
+  const { append, remove, fields } = useFieldArray<TestsStepData>({
     control: methods.control,
     name: "tests",
   });
@@ -63,12 +62,17 @@ export const TestsStep: React.FC<TestsStepProps> = ({
             id: testId,
             name: data.types.find((test) => test.id === testId)?.value || "",
             value: "",
-            on_arrival: false,
           },
         ]);
         append({ type_id: testId, value: 0, on_arrival: true });
       }
     }
+  };
+
+  const handleTestRemoval = (id: number) => {
+    const index = fields.findIndex((field) => field.type_id === id);
+    setTests((prev) => prev.filter((test, i) => index !== i));
+    index !== -1 && remove(index);
   };
 
   const onSubmit = (data: TestsStepData) => {
@@ -132,7 +136,7 @@ export const TestsStep: React.FC<TestsStepProps> = ({
                         />
                       </TableCell>
                       <TableCell>
-                        <IconButton>
+                        <IconButton onClick={() => handleTestRemoval(test.id)}>
                           <Delete color="error" />
                         </IconButton>
                       </TableCell>

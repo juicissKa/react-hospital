@@ -243,7 +243,7 @@ export const IllnessesStep: React.FC<IllnessesStepProps> = ({
                   />
                 </>
               )}
-            ></HideableSection>
+            />
             <HideableSection
               label="Инвалидность"
               name="disability"
