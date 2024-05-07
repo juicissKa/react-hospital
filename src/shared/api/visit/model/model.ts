@@ -90,6 +90,6 @@ export interface VisitFormData {
     };
   };
   tests: {
-    test_types: Value[];
+    types: Value[];
   };
 }

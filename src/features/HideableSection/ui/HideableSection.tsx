@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from "react";
-import { CheckboxGrid } from "../../../shared/ui/CheckboxGrid";
-import { Box, Grid } from "@mui/material";
+import { Grid, FormControlLabel, Checkbox } from "@mui/material";
+import { useFormContext } from "react-hook-form";
 
 interface HideableSectionProps {
   label: string;
@@ -20,10 +20,9 @@ export const HideableSection: React.FC<HideableSectionProps> = ({
   return (
     <Grid item xs={12}>
       <Grid container gap={2}>
-        <CheckboxGrid
+        <FormControlLabel
           label={label}
-          value={isToggled}
-          onClick={handleCheckboxClick}
+          control={<Checkbox value={isToggled} onClick={handleCheckboxClick} />}
         />
         {isToggled && (
           <Grid container spacing={2}>

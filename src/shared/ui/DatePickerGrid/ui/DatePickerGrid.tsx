@@ -3,23 +3,25 @@ import { DatePicker, LocalizationProvider, ruRU } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { ru } from "date-fns/locale";
 import React from "react";
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, useFormContext } from "react-hook-form";
 
 type DatePickerGridProps = {
   name: string;
-  control: Control<any, any>;
   label?: string;
   defaultValue?: Date;
   xs?: number;
+  required?: boolean;
 };
 
 export const DatePickerGrid: React.FC<DatePickerGridProps> = ({
   name,
-  control,
   label,
   defaultValue,
   xs = 4,
+  required = false,
 }) => {
+  const { control } = useFormContext();
+
   return (
     <Grid item xs={xs}>
       <Controller
@@ -40,6 +42,7 @@ export const DatePickerGrid: React.FC<DatePickerGridProps> = ({
               }}
               label={label}
               sx={{ width: "100%" }}
+              slotProps={{ textField: { required } }}
               {...restField}
             />
           </LocalizationProvider>

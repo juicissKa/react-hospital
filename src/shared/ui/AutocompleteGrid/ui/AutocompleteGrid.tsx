@@ -16,7 +16,7 @@ type AutocompleteGridProps = {
   label: string;
   xs?: number;
   handleChange: (event: React.SyntheticEvent, value: any) => void;
-  onInputChange: (value: string) => void;
+  onInputChange?: (value: string) => void;
   options?: { id: number; label: string }[];
 } & TextFieldProps;
 
@@ -30,7 +30,9 @@ export const AutocompleteGrid: React.FC<AutocompleteGridProps> = ({
 }) => {
   const handleInputChange = useCallback(
     debounce((str: string) => {
-      onInputChange(str);
+      if (onInputChange) {
+        onInputChange(str);
+      }
     }, 400),
     []
   );
@@ -39,7 +41,9 @@ export const AutocompleteGrid: React.FC<AutocompleteGridProps> = ({
     <Grid item xs={xs}>
       <Autocomplete
         disablePortal
-        onInputChange={(_, value) => handleInputChange(value)}
+        onInputChange={(_, value) => {
+          handleInputChange(value);
+        }}
         isOptionEqualToValue={(option, value) =>
           option.id === value.id && option.label === value.label
         }
