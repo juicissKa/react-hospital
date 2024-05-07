@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Grid,
   IconButton,
@@ -12,21 +11,14 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import {
-  Control,
-  FormProvider,
-  useFieldArray,
-  useForm,
-  useFormContext,
-  UseFormRegister,
-} from "react-hook-form";
-import { VisitData } from "../../../CreateVisitForm";
+import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { VisitFormData } from "../../../../../../shared/api/visit/model/model";
 import { AutocompleteGrid } from "../../../../../../shared/ui/AutocompleteGrid";
 import { Value } from "../../../../../../shared/api/model";
 import { Delete } from "@mui/icons-material";
 import { TextField } from "../../../../../../shared/ui/TextField/ui/TextField";
 import { StepperPagination } from "../StepperPagination";
+import { FilledFormData } from "../CreateVisitFormStepper";
 
 export type Test = {
   id: number;
@@ -35,13 +27,21 @@ export type Test = {
   on_arrival: boolean;
 };
 
-type TestsStepProps = {
-  data: VisitFormData["tests"];
+export type TestsStepData = {
+  tests: { type_id: number; value: number; on_arrival: boolean }[];
 };
 
-export const TestsStep: React.FC<TestsStepProps> = ({ data }) => {
+type TestsStepProps = {
+  data: VisitFormData["tests"];
+  filledFormData: FilledFormData;
+};
+
+export const TestsStep: React.FC<TestsStepProps> = ({
+  data,
+  filledFormData: { mainInfo, illnesses },
+}) => {
   const [testId, setTestId] = useState<number | null>(null);
-  const methods = useForm({});
+  const methods = useForm<TestsStepData>({});
 
   const handleAutocompleteChange = (_: any, value: Value | null) => {
     if (value) setTestId(value.id);
@@ -49,12 +49,10 @@ export const TestsStep: React.FC<TestsStepProps> = ({ data }) => {
   };
 
   const [tests, setTests] = useState<Test[]>([]);
-  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
-    {
-      control: methods.control,
-      name: "tests",
-    }
-  );
+  const { append, remove } = useFieldArray<TestsStepData>({
+    control: methods.control,
+    name: "tests",
+  });
 
   const handleTestAddition = () => {
     if (testId) {
@@ -68,14 +66,20 @@ export const TestsStep: React.FC<TestsStepProps> = ({ data }) => {
             on_arrival: false,
           },
         ]);
-        append({ type_id: testId, value: 0, on_arrival: false });
+        append({ type_id: testId, value: 0, on_arrival: true });
       }
     }
   };
 
+  const onSubmit = (data: TestsStepData) => {
+    console.log(data);
+    const preparedData = { ...mainInfo, illnesses, ...data };
+    console.log(preparedData);
+  };
+
   return (
     <FormProvider {...methods}>
-      <form>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
         <Grid container spacing={2} sx={{ marginTop: 1 }}>
           <Grid item xs={12}>
             <AutocompleteGrid
@@ -122,7 +126,8 @@ export const TestsStep: React.FC<TestsStepProps> = ({ data }) => {
                         <TextField
                           type="number"
                           sx={{ width: "200" }}
-                          {...methods.register(`tests.${index}.value`)}
+                          name={`tests.${index}.value`}
+                          required
                           placeholder="0.00"
                         />
                       </TableCell>
@@ -138,8 +143,8 @@ export const TestsStep: React.FC<TestsStepProps> = ({ data }) => {
             </TableContainer>
           </Grid>
         </Grid>
+        <StepperPagination text={"Создать пациента"} />
       </form>
-      <StepperPagination text={"Создать пациента"} />
     </FormProvider>
   );
 };

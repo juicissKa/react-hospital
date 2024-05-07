@@ -6,13 +6,12 @@ export type SelectGridProps = {
   xs?: number;
 } & SelectProps;
 
-export const SelectGrid: React.FC<SelectGridProps> = ({
-  xs = 4,
-  ...restProps
-}) => {
-  return (
-    <Grid item xs={xs}>
-      <Select {...restProps} />
-    </Grid>
-  );
-};
+export const SelectGrid: React.FC<SelectGridProps> = React.forwardRef(
+  ({ xs = 4, ...restProps }, ref) => {
+    return (
+      <Grid item xs={xs}>
+        <Select {...restProps} ref={ref} />
+      </Grid>
+    );
+  }
+);

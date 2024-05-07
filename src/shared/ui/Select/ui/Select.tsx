@@ -14,29 +14,27 @@ export type SelectProps = {
   labelId: string;
 } & MuiSelectProps;
 
-export const Select: React.FC<SelectProps> = ({
-  label,
-  labelId,
-  items,
-  ...restProps
-}) => {
-  return (
-    <FormControl sx={{ width: "100%" }}>
-      <InputLabel id={labelId} shrink={true}>
-        {label}
-      </InputLabel>
-      <MuiSelect
-        labelId={labelId}
-        label={label}
-        defaultValue={1}
-        {...restProps}
-      >
-        {items.map((items) => (
-          <MenuItem key={items.id} value={items.id}>
-            {items.value}
-          </MenuItem>
-        ))}
-      </MuiSelect>
-    </FormControl>
-  );
-};
+export const Select: React.FC<SelectProps> = React.forwardRef(
+  ({ label, labelId, items, ...restProps }, ref) => {
+    return (
+      <FormControl sx={{ width: "100%" }}>
+        <InputLabel id={labelId} shrink={true}>
+          {label}
+        </InputLabel>
+        <MuiSelect
+          labelId={labelId}
+          label={label}
+          defaultValue={1}
+          {...restProps}
+          ref={ref}
+        >
+          {items.map((items) => (
+            <MenuItem key={items.id} value={items.id}>
+              {items.value}
+            </MenuItem>
+          ))}
+        </MuiSelect>
+      </FormControl>
+    );
+  }
+);

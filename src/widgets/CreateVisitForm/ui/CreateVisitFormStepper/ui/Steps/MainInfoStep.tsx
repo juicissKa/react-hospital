@@ -11,8 +11,9 @@ import { VisitFormData } from "../../../../../../shared/api/visit/model/model";
 import { useGetPatientsQuery } from "../../../../../../shared/api/patient/patient";
 import { convertDbTimeString } from "../../../../../../shared/utils/time";
 import { StepperPagination } from "../StepperPagination";
+import { FilledFormData } from "../CreateVisitFormStepper";
 
-type VisitMainInfoData = {
+export type MainInfoStepData = {
   date_arrive: Date;
   date_leave: Date;
   date_visit: Date;
@@ -40,6 +41,7 @@ type MainInfoStepProps = {
   setPatientId: React.Dispatch<React.SetStateAction<number | null>>;
   data: VisitFormData["mainInfo"];
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
+  setFilledFormData: React.Dispatch<React.SetStateAction<FilledFormData>>;
 };
 
 export const MainInfoStep: React.FC<MainInfoStepProps> = ({
@@ -47,11 +49,12 @@ export const MainInfoStep: React.FC<MainInfoStepProps> = ({
   setPatientId,
   data,
   setActiveStep,
+  setFilledFormData,
 }) => {
   const [gender, setGender] = useState("мужской");
   const [inputText, setInputText] = useState("");
 
-  const methods = useForm<VisitMainInfoData>({
+  const methods = useForm<MainInfoStepData>({
     defaultValues: {
       apnea_id: 1,
       appearance_id: 1,
@@ -75,8 +78,9 @@ export const MainInfoStep: React.FC<MainInfoStepProps> = ({
     setPatientId(value);
   };
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: MainInfoStepData) => {
     console.log(data);
+    setFilledFormData((prev) => ({ ...prev, mainInfo: data }));
     setActiveStep((prev) => prev + 1);
   };
 
@@ -96,6 +100,7 @@ export const MainInfoStep: React.FC<MainInfoStepProps> = ({
                     patient.date_birth
                   )}`,
                 }))}
+                required
               />
             </Grid>
           </Grid>
@@ -103,17 +108,13 @@ export const MainInfoStep: React.FC<MainInfoStepProps> = ({
             <>
               <DatePickerGrid
                 label="Дата поступления"
-                {...methods.register("date_arrive")}
+                name="date_arrive"
                 required
               />
-              <DatePickerGrid
-                label="Дата выписки"
-                {...methods.register("date_leave")}
-                required
-              />
+              <DatePickerGrid label="Дата выписки" name="date_leave" required />
               <DatePickerGrid
                 label="Дата посещения"
-                {...methods.register("date_visit")}
+                name="date_visit"
                 required
               />
               <SelectGrid
@@ -202,23 +203,28 @@ export const MainInfoStep: React.FC<MainInfoStepProps> = ({
                 name="botulinum_therapy"
               />
               <Grid item xs={12}>
-                <HideableSection label="Госпитализация">
-                  <SelectGrid
-                    {...methods.register("hospitalization.type_id")}
-                    items={data.hospitalization.types}
-                    label={"Госпитализация"}
-                    labelId={"hospitalization-label"}
-                    defaultValue={1}
-                    required
-                  />
-                  <TextFieldGrid
-                    type="number"
-                    label={"Часы госпитализации"}
-                    name="hospitalization.hours"
-                    defaultValue={0}
-                    required
-                  />
-                </HideableSection>
+                <HideableSection
+                  label="Госпитализация"
+                  name="hospitalization"
+                  defaultValues={{ type_id: 1, hours: 0 }}
+                  render={() => (
+                    <>
+                      <SelectGrid
+                        {...methods.register("hospitalization.type_id")}
+                        items={data.hospitalization.types}
+                        label={"Госпитализация"}
+                        labelId={"hospitalization-label"}
+                        required
+                      />
+                      <TextFieldGrid
+                        type="number"
+                        label={"Часы госпитализации"}
+                        name="hospitalization.hours"
+                        required
+                      />
+                    </>
+                  )}
+                />
               </Grid>
             </>
           )}

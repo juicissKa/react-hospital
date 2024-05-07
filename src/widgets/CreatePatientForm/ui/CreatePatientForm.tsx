@@ -105,15 +105,24 @@ export const CreatePatientForm: React.FC = () => {
             items={data.somatotypes}
           />
           <Grid item xs={12}>
-            <HideableSection label="Мигрант">
-              <SelectGrid
-                label="Регион эмиграции"
-                labelId="region-label"
-                {...methods.register("migration.region_id")}
-                items={data.migration.regions}
-              />
-              <DatePickerGrid label="Дата эмиграции" name="migration.date" />
-            </HideableSection>
+            <HideableSection
+              label="Мигрант"
+              name="migration"
+              render={() => (
+                <>
+                  <SelectGrid
+                    label="Регион эмиграции"
+                    labelId="region-label"
+                    {...methods.register("migration.region_id")}
+                    items={data.migration.regions}
+                  />
+                  <DatePickerGrid
+                    label="Дата эмиграции"
+                    name="migration.date"
+                  />
+                </>
+              )}
+            />
           </Grid>
           <Grid item>
             <Button type="submit">СОЗДАТЬ</Button>
