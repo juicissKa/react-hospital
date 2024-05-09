@@ -52,6 +52,7 @@ export const CreateVisitFormStepper: React.FC<CreateVisitFormStepperProps> = ({
         <TestsStep
           data={visitFormData.tests}
           filledFormData={filledFormData as FilledFormData}
+          patientId={patientId as number}
         />
       ),
     },

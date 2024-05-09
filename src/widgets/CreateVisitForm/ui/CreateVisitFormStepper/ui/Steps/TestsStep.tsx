@@ -19,6 +19,8 @@ import { Delete } from "@mui/icons-material";
 import { TextField } from "../../../../../../shared/ui/TextField/ui/TextField";
 import { StepperPagination } from "../StepperPagination";
 import { FilledFormData } from "../CreateVisitFormStepper";
+import { useGetPatientByIdQuery } from "../../../../../../shared/api/patient/patient";
+import { useCreateVisitMutation } from "../../../../../../shared/api/visit/visit";
 
 export type Test = {
   id: number;
@@ -33,11 +35,13 @@ export type TestsStepData = {
 type TestsStepProps = {
   data: VisitFormData["tests"];
   filledFormData: FilledFormData;
+  patientId: number;
 };
 
 export const TestsStep: React.FC<TestsStepProps> = ({
   data,
   filledFormData: { mainInfo, illnesses },
+  patientId,
 }) => {
   const [testId, setTestId] = useState<number | null>(null);
   const methods = useForm<TestsStepData>({ defaultValues: { tests: [] } });
@@ -75,10 +79,17 @@ export const TestsStep: React.FC<TestsStepProps> = ({
     index !== -1 && remove(index);
   };
 
+  const [createVisit] = useCreateVisitMutation();
+
   const onSubmit = (data: TestsStepData) => {
-    console.log(data);
-    const preparedData = { ...mainInfo, illnesses, ...data };
+    const preparedData = {
+      patient_id: patientId,
+      ...mainInfo,
+      illnesses,
+      ...data,
+    };
     console.log(preparedData);
+    createVisit(preparedData);
   };
 
   return (

@@ -32,7 +32,7 @@ export type IllnessesStepData = {
     sugar_before_eating: number;
     sugar_after_eating: number;
     compensation_id: number;
-    him_id: number;
+    him: number;
   };
   nervous_system?: {
     polyneuropathy_id: number;
@@ -48,7 +48,7 @@ export type IllnessesStepData = {
     disaggregant_id: number;
     coagulopathies_id: number;
     heart_failure_id: number;
-    heart_failure_stage_id: number;
+    heart_failure_stage: number;
     cerebral_atherosclerosis_id: number;
     cvb_atherosclerosis_id: number;
     lower_limbs_atherosclerosis_id: number;
@@ -62,6 +62,7 @@ export type IllnessesStepData = {
     myocardial_dystrophy: number;
     myocardial_infarction_before: boolean;
     rheumatic_heart_disease: boolean;
+    warfaring: boolean;
   };
   arterial_hypertension: {
     stage: number;
@@ -143,6 +144,7 @@ const defaultValues = {
     myocardial_dystrophy: 1,
     myocardial_infarction_before: false,
     rheumatic_heart_disease: false,
+    warfaring: false,
   },
   arterial_hypertension: {
     stage: 1,
@@ -265,6 +267,7 @@ export const IllnessesStep: React.FC<IllnessesStepProps> = ({
             />
             <HideableSection
               label="Диабет"
+              name="diabete"
               defaultValues={defaultValues.diabete}
               render={() => (
                 <>
@@ -297,12 +300,16 @@ export const IllnessesStep: React.FC<IllnessesStepProps> = ({
                     labelId={"diabete-type-label"}
                   />
                   <SelectGrid
-                    {...methods.register("diabete.him_id")}
-                    items={diabete.hims}
+                    {...methods.register("diabete.him")}
                     label={"ХИМ"}
                     labelId={"diabete-him-label"}
+                    items={[
+                      { id: 1, value: "1 стадия" },
+                      { id: 2, value: "2 стадия" },
+                      { id: 3, value: "3 стадия" },
+                    ]}
                   />
-                  <CheckboxGrid label="Генотип" name="genotype" />
+                  <CheckboxGrid label="Генотип" name="diabete.genotype" />
                 </>
               )}
             />
@@ -395,10 +402,13 @@ export const IllnessesStep: React.FC<IllnessesStepProps> = ({
                       labelId={"heart-failure-label"}
                     />
                     <SelectGrid
-                      {...methods.register(
-                        "heart_issue.heart_failure_stage_id"
-                      )}
-                      items={heart_issue.heart_failure.stage}
+                      {...methods.register("heart_issue.heart_failure_stage")}
+                      items={[
+                        { id: 1, value: "I стадия" },
+                        { id: 2, value: "II стадия" },
+                        { id: 3, value: "III стадия" },
+                        { id: 3, value: "IV стадия" },
+                      ]}
                       label={"Стадия сердечной недостаточности"}
                       labelId={"heart-failure-stage-label"}
                     />
@@ -488,7 +498,7 @@ export const IllnessesStep: React.FC<IllnessesStepProps> = ({
                   />
                   <CheckboxGrid
                     label={"Ревматическая болезнь сердца"}
-                    name="rheumatic_heart_disease"
+                    name="heart_issue.rheumatic_heart_disease"
                   />
                 </>
               )}

@@ -12,6 +12,7 @@ import { useGetPatientsQuery } from "../../../../../../shared/api/patient/patien
 import { convertDbTimeString } from "../../../../../../shared/utils/time";
 import { StepperPagination } from "../StepperPagination";
 import { FilledFormData } from "../CreateVisitFormStepper";
+import { Value } from "../../../../../../shared/api/model";
 
 export type MainInfoStepData = {
   date_arrive: Date;
@@ -76,8 +77,8 @@ export const MainInfoStep: React.FC<MainInfoStepProps> = ({
     limit: 10,
   });
 
-  const handleAutocompleteChange = (_: any, value: number | null) => {
-    setPatientId(value);
+  const handleAutocompleteChange = (_: any, value: Value | null) => {
+    setPatientId(value !== null ? value.id : null);
   };
 
   const onSubmit = (data: MainInfoStepData) => {

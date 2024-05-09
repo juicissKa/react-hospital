@@ -12,7 +12,15 @@ const visitService = commonApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    createVisit: builder.mutation<any, any>({
+      query: (data) => ({
+        url: `${VISIT_BASE_URL}/create`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useGetVisitCreateFormDataQuery } = visitService;
+export const { useGetVisitCreateFormDataQuery, useCreateVisitMutation } =
+  visitService;
