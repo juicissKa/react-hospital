@@ -5,9 +5,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 export type DataRowProps = {
   id: number;
   cells: string[] | ReactNode[];
+  redirectUrl?: string;
 };
 
-export const DataRow: React.FC<DataRowProps> = ({ cells, id }) => {
+export const DataRow: React.FC<DataRowProps> = ({ redirectUrl, cells, id }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -15,7 +16,11 @@ export const DataRow: React.FC<DataRowProps> = ({ cells, id }) => {
     <TableRow
       hover
       sx={{ cursor: "pointer" }}
-      onClick={() => navigate(`${location.pathname}/${id}`)}
+      onClick={() =>
+        navigate(
+          `${location.pathname}/${redirectUrl ? `${redirectUrl}/` : ""}${id}`
+        )
+      }
     >
       {cells.map((cell, index) => (
         <TableCell key={index}>{cell}</TableCell>

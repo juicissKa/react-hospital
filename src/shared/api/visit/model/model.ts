@@ -1,4 +1,5 @@
 import { Value } from "../../model";
+import { GetDefaultQueryParams } from "../../model/types";
 
 export interface VisitFormData {
   mainInfo: {
@@ -92,4 +93,13 @@ export interface VisitFormData {
   tests: {
     types: Value[];
   };
+}
+
+export interface GetVisitsQueryParams extends GetDefaultQueryParams {
+  id: string;
+}
+
+export interface VisitShortInfo {
+  id: number;
+  date_visit: string;
 }

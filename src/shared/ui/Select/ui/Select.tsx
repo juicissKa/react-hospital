@@ -28,7 +28,7 @@ export const Select: React.FC<SelectProps> = React.forwardRef(
           {...restProps}
           ref={ref}
         >
-          {items.map((items) => (
+          {items?.map((items) => (
             <MenuItem key={items.id} value={items.id}>
               {items.value}
             </MenuItem>

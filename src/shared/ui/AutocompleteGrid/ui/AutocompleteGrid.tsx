@@ -5,12 +5,7 @@ import {
   TextField,
   TextFieldProps,
 } from "@mui/material";
-import React, { useCallback, useMemo, useState } from "react";
-
-import { useGetPatientsQuery } from "../../../api/patient/patient";
-import { convertDbTimeString } from "../../../utils/time";
-import queryString from "query-string";
-import { PatientShortInfo } from "../../../api/patient/model/model";
+import React, { useCallback } from "react";
 
 type AutocompleteGridProps = {
   label: string;

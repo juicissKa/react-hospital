@@ -25,16 +25,18 @@ export const SinglePatientPage: React.FC = () => {
       {isLoading ? (
         <Loader />
       ) : data ? (
-        <PatientBaseInfo
-          name={data.name}
-          gender={data.gender.value}
-          date_birth={convertDbTimeString(data.date_birth)}
-          ib={data.ib}
-        />
+        <>
+          <PatientBaseInfo
+            name={data.name}
+            gender={data.gender.value}
+            date_birth={convertDbTimeString(data.date_birth)}
+            ib={data.ib}
+          />
+          <PatientTabs data={data} />
+        </>
       ) : (
         <></>
       )}
-      <PatientTabs />
     </PageWrapper>
   );
 };

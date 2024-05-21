@@ -10,7 +10,7 @@ const theme = createTheme({
     primary: {
       main: "#e91e63",
       light: "#fce4ec",
-      contrastText: "white",
+      contrastText: "#ffffff",
     },
   },
 });

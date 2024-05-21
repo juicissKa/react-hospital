@@ -13,9 +13,9 @@ import { useNavigate } from "react-router-dom";
 
 const buttons = [
   {
-    text: "Посещения",
+    text: "Поступления",
     icon: <AssignmentReturned sx={{ color: "primary.main" }} />,
-    route: "/visits",
+    route: "/arrivals",
   },
   {
     text: "Пациенты",

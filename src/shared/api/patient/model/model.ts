@@ -19,9 +19,3 @@ export interface PatientShortInfo {
     value: string;
   };
 }
-
-export interface GetPatientsQueryParams {
-  find?: string;
-  limit?: number;
-  page?: number;
-}

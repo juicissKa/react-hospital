@@ -1,12 +1,29 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import React, { useState } from "react";
 import { MainInfoTab } from "./Tabs/MainInfoTab";
-import { VisitsTab } from "./Tabs/VisitsTab";
+import { ArrivalsTab } from "./Tabs/ArrivalsTab";
+import { useParams } from "react-router-dom";
 
-export const PatientTabs = () => {
+type PatientTabsProps = {
+  data: {
+    nationality: { value: string };
+    somatotype: { value: string };
+    migration?: {
+      region: { value: string };
+      date: { value: string };
+    };
+  };
+};
+
+export const PatientTabs: React.FC<PatientTabsProps> = ({ data }) => {
+  const { id } = useParams();
+  console.log(data);
   const TABS = [
-    { label: "Общая информация", component: <MainInfoTab /> },
-    { label: "Посещения", component: <VisitsTab /> },
+    { label: "Общая информация", component: <MainInfoTab data={data} /> },
+    {
+      label: "Поступления",
+      component: <ArrivalsTab patientId={id ? parseInt(id) : undefined} />,
+    },
   ];
 
   const [currentTab, setCurrentTab] = useState(0);

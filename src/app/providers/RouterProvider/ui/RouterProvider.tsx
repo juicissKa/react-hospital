@@ -6,8 +6,11 @@ import {
 import App from "../../../App";
 import { CreatePatient } from "../../../../pages/PatientPages/CreatePatient";
 import { PatientsPage } from "../../../../pages/PatientPages/PatientsPage";
-import { VisitsPage } from "../../../../pages/VisitPages/VisitsPage";
+import { ArrivalsPage } from "../../../../pages/ArrivalPages/ArrivalsPage";
 import { SinglePatientPage } from "../../../../pages/PatientPages/SinglePatientPage";
+import { CreateArrivalPage } from "../../../../pages/ArrivalPages/CreateArrivalPage";
+import { SingleArrivalPage } from "../../../../pages/ArrivalPages/SingleArrivalPage";
+import { SingleVisitPage } from "../../../../pages/VisitPages/SingleVisitPage";
 import { CreateVisitPage } from "../../../../pages/VisitPages/CreateVisitPage";
 
 const router = createBrowserRouter([
@@ -24,16 +27,28 @@ const router = createBrowserRouter([
         element: <CreatePatient />,
       },
       {
-        path: "/visits",
-        element: <VisitsPage />,
+        path: "/arrivals",
+        element: <ArrivalsPage />,
       },
       {
-        path: "/visits/create",
-        element: <CreateVisitPage />,
+        path: "/arrivals/create",
+        element: <CreateArrivalPage />,
       },
       {
         path: "/patients/:id",
         element: <SinglePatientPage />,
+      },
+      {
+        path: "/arrivals/:id",
+        element: <SingleArrivalPage />,
+      },
+      {
+        path: "/arrivals/:arrivalId/visits/:id",
+        element: <SingleVisitPage />,
+      },
+      {
+        path: "/arrivals/:arrivalId/visits/create",
+        element: <CreateVisitPage />,
       },
     ],
   },

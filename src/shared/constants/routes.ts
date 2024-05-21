@@ -1,9 +1,9 @@
 import { PatientsPage } from "../../pages/PatientPages/PatientsPage";
-import { VisitsPage } from "../../pages/VisitPages/VisitsPage";
+import { ArrivalsPage } from "../../pages/ArrivalPages/ArrivalsPage";
 
 export enum NavigationTitles {
   Patients = "patients",
-  Visits = "visits",
+  Arrivals = "arrivals",
 }
 
 export interface Route {
@@ -18,9 +18,9 @@ export const routes: Record<NavigationTitles, Route> = {
     title: "Пациенты",
     component: PatientsPage,
   },
-  [NavigationTitles.Visits]: {
-    name: NavigationTitles.Visits,
-    title: "Визиты",
-    component: VisitsPage,
+  [NavigationTitles.Arrivals]: {
+    name: NavigationTitles.Arrivals,
+    title: "Поступления",
+    component: ArrivalsPage,
   },
 };

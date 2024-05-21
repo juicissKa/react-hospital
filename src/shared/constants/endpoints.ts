@@ -11,12 +11,12 @@ export const endpoints = {
       title: "Создание пациента",
     },
   },
-  visits: {
-    url: "/visits",
-    title: "Посещения",
+  arrivals: {
+    url: "/arrivals",
+    title: "Поступления",
     create: {
-      url: "/visits/create",
-      title: "Создание посещения",
+      url: "/arrivals/create",
+      title: "Создание поступления",
     },
   },
 };

@@ -14,12 +14,14 @@ interface DataTableProps {
   colnames: string[];
   items: DataRowProps[] | undefined;
   isLoading?: boolean;
+  redirectUrl?: string;
 }
 
 export const DataTable: React.FC<DataTableProps> = ({
   items,
   isLoading = false,
   colnames,
+  redirectUrl,
 }) => {
   return (
     <TableContainer>
@@ -35,7 +37,9 @@ export const DataTable: React.FC<DataTableProps> = ({
           {isLoading ? (
             [...Array(4)].map((item, index) => <DataRowSkeleton key={index} />)
           ) : items ? (
-            items.map((item, index) => <DataRow key={item.id} {...item} />)
+            items.map((item, index) => (
+              <DataRow redirectUrl={redirectUrl} key={item.id} {...item} />
+            ))
           ) : (
             <></>
           )}
